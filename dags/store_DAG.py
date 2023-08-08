@@ -36,7 +36,8 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
     t3 = MySqlOperator(
         task_id='create_mysql_table',
         mysql_conn_id="mysql_conn",
-        sql="create_table.sql"
+        sql="create_table.sql",
+        dag=dag
     )
 
 t1 >> t2 >> t3
