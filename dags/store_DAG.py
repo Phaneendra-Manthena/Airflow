@@ -13,7 +13,7 @@ default_args = {
     'retry_delay': timedelta(seconds=5)
 }
 
-dag = DAG('store_dag', default_args=default_args, schedule_interval='@daily', template_searchpath=['/usr/local/airflow/sql_files'], catchup=False)
+with DAG('store_dag',default_args=default_args,schedule_interval='@daily', template_searchpath=['/usr/local/airflow/sql_files'], catchup=True)
 
 t1 = BashOperator(
     task_id='check_file_exists',
@@ -33,10 +33,10 @@ t2 = PythonOperator(
     dag=dag
 )
 
-t3 = MySqlOperator(
-    task_id='Create_mysql_table',
-    mysql_conn_id="mysql_conn",
-    sql="create_table.sql"
-)
-
+# t3 = MySqlOperator(
+#     task_id='Create_mysql_table',
+#     mysql_conn_id="mysql_conn",
+#     sql="create_table.sql"
+# )
+t3 = MySqlOperator(task_id='create_mysql_table', mysql_conn_id="mysql_conn", sql="create_table.sql")
 t1 >> t2 >> t3
