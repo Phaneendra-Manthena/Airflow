@@ -6,10 +6,6 @@ services:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
       - POSTGRES_DB=airflow
-    logging:
-      options:
-        max-size: 10m
-        max-file: "3"
   mysql:
     image: mysql
     environment:
@@ -33,10 +29,6 @@ services:
       - AIRFLOW__SMTP__SMTP_PASSWORD=hdwiondmyyobhlto
       - AIRFLOW__SMTP__SMTP_PORT=587
       - AIRFLOW__SMTP__SMTP_MAIL_FROM=Airflow
-    logging:
-      options:
-        max-size: 10m
-        max-file: "3"
     volumes:
       - ./dags:/usr/local/airflow/dags
       - ./store_files:/usr/local/airflow/store_files_airflow/
