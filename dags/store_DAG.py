@@ -13,30 +13,30 @@ default_args = {
     'retry_delay': timedelta(seconds=5)
 }
 
-with DAG('store_dag',default_args=default_args,schedule_interval='@daily', template_searchpath=['/usr/local/airflow/sql_files'], catchup=True) as dag:
+with DAG('store_dag', default_args=default_args, schedule_interval='@daily', template_searchpath=['/usr/local/airflow/sql_files'], catchup=True) as dag:
 
-t1 = BashOperator(
-    task_id='check_file_exists',
-    bash_command='shasum ~/store_files_airflow/raw_store_transactions.csv',
-    retries=2,
-    retry_delay=timedelta(seconds=15),
-    dag=dag
-)
+    t1 = BashOperator(
+        task_id='check_file_exists',
+        bash_command='shasum ~/store_files_airflow/raw_store_transactions.csv',
+        retries=2,
+        retry_delay=timedelta(seconds=15),
+        dag=dag
+    )
 
-def clean_data():
-    # Call your data cleaning function here
-    data_cleaner()
+    def clean_data():
+        # Call your data cleaning function here
+        data_cleaner()
 
-t2 = PythonOperator(
-    task_id='clean_raw_csv',
-    python_callable=clean_data,  # Call the function you defined
-    dag=dag
-)
+    t2 = PythonOperator(
+        task_id='clean_raw_csv',
+        python_callable=clean_data,  # Call the function you defined
+        dag=dag
+    )
 
-# t3 = MySqlOperator(
-#     task_id='Create_mysql_table',
-#     mysql_conn_id="mysql_conn",
-#     sql="create_table.sql"
-# )
-t3 = MySqlOperator(task_id='create_mysql_table', mysql_conn_id="mysql_conn", sql="create_table.sql")
+    t3 = MySqlOperator(
+        task_id='create_mysql_table',
+        mysql_conn_id="mysql_conn",
+        sql="create_table.sql"
+    )
+
 t1 >> t2 >> t3
