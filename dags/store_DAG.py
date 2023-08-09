@@ -47,5 +47,13 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
         dag=dag
     )
 
+    t5 = MySqlOperator(
+        task_id='select_from_table',
+        mysql_conn_id="mysql_conn",
+        sql="select_from_table.sql",
+        dag=dag
+    )
 
-t1 >> t2 >> t3 >> t4
+
+
+t1 >> t2 >> t3 >> t4 >> t5
