@@ -20,7 +20,7 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
 
     t1 = BashOperator(
         task_id='check_file_exists',
-        bash_command='shasum ~/store_files_airflow/raw_store_transactions.csv',
+        bash_command='shasum ~/store_files_airflow/raw_store_transactions_%s.csv' % yesterday_date,
         retries=2,
         retry_delay=timedelta(seconds=15),
         dag=dag
