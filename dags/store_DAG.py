@@ -57,7 +57,15 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
         dag=dag
     )
 
-    t6 = BashOperator(
+    # Delete existing files before running the task
+delete_files = BashOperator(
+    task_id='delete_existing_files',
+    bash_command='rm -f /store_files_mysql/location_wise_profit.csv /store_files_mysql/store_wise_profit.csv',
+    dag=dag
+)
+
+
+t6 = BashOperator(
         task_id='move_file1',
         bash_command='cat ~/store_files_airflow/location_wise_profit.csv && mv ~/store_files_airflow/location_wise_profit.csv ~/store_files_airflow/location_wise_profit_%s.csv' % yesterday_date,
         dag=dag
