@@ -8,7 +8,6 @@ from datacleaner import data_cleaner
 
 yesterday_date = datetime.strftime(datetime.now() - timedelta(1), '%Y-%m-%d')
 
-
 default_args = {
     'owner': 'Airflow',
     'start_date': datetime(2023, 8, 8),
@@ -59,13 +58,12 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
 
     # Delete existing files before running the task
     delete_files = BashOperator(
-       task_id='delete_existing_files',
-       bash_command='rm -f /store_files_mysql/location_wise_profit.csv /store_files_mysql/store_wise_profit.csv',
+        task_id='delete_existing_files',
+        bash_command='rm -f /store_files_mysql/location_wise_profit.csv /store_files_mysql/store_wise_profit.csv',
         dag=dag
-)
+    )
 
-
-t6 = BashOperator(
+    t6 = BashOperator(
         task_id='move_file1',
         bash_command='cat ~/store_files_airflow/location_wise_profit.csv && mv ~/store_files_airflow/location_wise_profit.csv ~/store_files_airflow/location_wise_profit_%s.csv' % yesterday_date,
         dag=dag
@@ -76,5 +74,4 @@ t6 = BashOperator(
         dag=dag
     )
 
-
-t1 >> t2 >> t3 >> t4 >> t5 >> [t6,t7]
+    t1 >> t2 >> t3 >> t4 >> t5 >> delete_files >> [t6, t7]
