@@ -69,7 +69,7 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
     )
 
     t8 = EmailOperator(task_id='send_email',
-                       to='example@example.com',
+                       to='phani.manthena27@gmail.com',
                        subject='Daily report generated',
                        html_content=""" <h1>Congratulations! Your store reports are ready.</h1> """,
                        files=['/usr/local/airflow/store_files_airflow/location_wise_profit_%s.csv' % yesterday_date, '/usr/local/airflow/store_files_airflow/store_wise_profit_%s.csv' % yesterday_date]
