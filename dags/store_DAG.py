@@ -40,4 +40,12 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
         dag=dag
     )
 
-t1 >> t2 >> t3
+    t4 = MySqlOperator(
+        task_id='insert_into_table',
+        mysql_conn_id="mysql_conn",
+        sql="insert_into_table.sql",
+        dag=dag
+    )
+
+
+t1 >> t2 >> t3 >> t4
