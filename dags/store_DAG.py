@@ -58,10 +58,10 @@ with DAG('store_dag', default_args=default_args, schedule_interval='@daily', tem
     )
 
     # Delete existing files before running the task
-delete_files = BashOperator(
-    task_id='delete_existing_files',
-    bash_command='rm -f /store_files_mysql/location_wise_profit.csv /store_files_mysql/store_wise_profit.csv',
-    dag=dag
+    delete_files = BashOperator(
+       task_id='delete_existing_files',
+       bash_command='rm -f /store_files_mysql/location_wise_profit.csv /store_files_mysql/store_wise_profit.csv',
+        dag=dag
 )
 
 
