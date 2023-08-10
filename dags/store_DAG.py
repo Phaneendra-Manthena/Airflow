@@ -20,9 +20,9 @@ with DAG('store_dag',default_args=default_args,schedule_interval='@daily', templ
 
     t1=BashOperator(task_id='check_file_exists', bash_command='shasum ~/store_files_airflow/raw_store_transactions.csv', retries=2, retry_delay=timedelta(seconds=15))
     #
-    t2 = PythonOperator(task_id='clean_raw_csv', python_callable=data_cleaner)
-
-    t3 = MySqlOperator(task_id='create_mysql_table', mysql_conn_id="mysql_conn", sql="create_table.sql")
+    # t2 = PythonOperator(task_id='clean_raw_csv', python_callable=data_cleaner)
+    #
+    # t3 = MySqlOperator(task_id='create_mysql_table', mysql_conn_id="mysql_conn", sql="create_table.sql")
     #
     # t4 = MySqlOperator(task_id='insert_into_table', mysql_conn_id="mysql_conn", sql="insert_into_table.sql")
     #
@@ -42,4 +42,4 @@ with DAG('store_dag',default_args=default_args,schedule_interval='@daily', templ
     # t9 = BashOperator(task_id='rename_raw', bash_command='mv ~/store_files_airflow/raw_store_transactions.csv ~/store_files_airflow/raw_store_transactions_{0}.csv'.format(yesterday_date))
 
     # t1 >> t2 >> t3 >> t4 >> t5 >> [t6, t7] >> t8 >> t9
-    t1 >> t2 >> t3
+    # t1 >> t2 >> t3
