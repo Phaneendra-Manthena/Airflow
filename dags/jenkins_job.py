@@ -19,7 +19,7 @@ jenkins_server_url = 'http://34.16.152.234:8080'  # Replace with your Jenkins se
 jenkins_username = 'Phani'
 jenkins_password = 'mjrr'
 job_name = 'gradle'
-crumb = 'a598d99a95d9ff4c59d0bcd2906ce714bb5a779e767e0fb9f19a34d7c69a7a68'  # Replace with your crumb
+crumb = 'fa017a59c1c5b739c282fae1d5f674c587407a7fb471f98d73a6714de2ddce1d'  # Replace with your crumb
 
 trigger_jenkins_task = BashOperator(
     task_id='trigger_jenkins_task',
@@ -28,3 +28,10 @@ trigger_jenkins_task = BashOperator(
 )
 
 trigger_jenkins_task
+
+
+#
+# curl -s 'http://34.16.152.234:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+#
+#
+# wget -q --auth-no-challenge --user Phani --password mjrr --output-document - 'http://34.16.152.234:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
