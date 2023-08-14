@@ -18,7 +18,7 @@ dag = DAG(
 jenkins_server_url = '34.16.152.234:8080'  # Replace with your Jenkins server URL
 jenkins_username = 'Phani'
 jenkins_password = 'mjrr'
-job_name = 'gradle build'
+job_name = 'gradle'
 
 trigger_jenkins_task = BashOperator(
     task_id='trigger_jenkins_task',
@@ -27,3 +27,10 @@ trigger_jenkins_task = BashOperator(
 )
 
 trigger_jenkins_task
+
+
+# curl -X POST http://34.16.152.234:8080/job/gradle/build --user Phani:mjrr -H 'Jenkins-Crumb: 6b3a16e39caa9388642c5c5c309aa6215ce272ed590e4a6cc8d221e9e77b6f05'
+#
+#
+#
+# curl -v -X POST http://34.16.152.234:8080/job/gradle/buildWithParameters?param=value --user Phani:117084d48630cc0d6245f985b4bc711864
