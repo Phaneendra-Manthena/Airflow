@@ -15,23 +15,15 @@ dag = DAG(
     catchup=False,
 )
 
-jenkins_server_url = 'http://34.16.152.234:8080'  # Replace with your Jenkins server URL
-jenkins_username = 'Phani'
-jenkins_password = 'mjrr'
-job_name = 'gradle'
-crumb = 'fa017a59c1c5b739c282fae1d5f674c587407a7fb471f98d73a6714de2ddce1d'  # Replace with your crumb
+jenkins_command = (
+    'curl -I -X POST http://Phani:11bcabf573419a1b38f178b9de116c0f4d@34.16.152.234:8080/job/gradle/build '
+    '-H "Jenkins-Crumb:fa017a59c1c5b739c282fae1d5f674c587407a7fb471f98d73a6714de2ddce1d"'
+)
 
 trigger_jenkins_task = BashOperator(
     task_id='trigger_jenkins_task',
-    bash_command=f'curl -X POST -u {jenkins_username}:{jenkins_password} -H "Jenkins-Crumb: {crumb}" {jenkins_server_url}/job/{job_name}/build',
+    bash_command=jenkins_command,
     dag=dag,
 )
 
 trigger_jenkins_task
-
-
-#
-# curl -s 'http://34.16.152.234:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
-#
-#
-# wget -q --auth-no-challenge --user Phani --password mjrr --output-document - 'http://34.16.152.234:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
