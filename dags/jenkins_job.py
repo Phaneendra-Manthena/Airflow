@@ -15,7 +15,7 @@ dag = DAG(
     catchup=False,
 )
 
-jenkins_server_url = 'http://34.16.152.234:8080'  # Replace with your Jenkins server URL
+jenkins_server_url = '34.16.152.234:8080'  # Replace with your Jenkins server URL
 jenkins_username = 'Phani'
 jenkins_password = 'mjrr'
 job_name = 'gradle build'
