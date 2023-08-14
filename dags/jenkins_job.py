@@ -10,6 +10,6 @@ dag = DAG(
 
 start_jenkins = BashOperator(
     task_id="start_jenkins",
-    bash_command="systemctl start jenkins",
+    bash_command="/usr/bin/sudo systemctl start jenkins",
     dag=dag,
 )
