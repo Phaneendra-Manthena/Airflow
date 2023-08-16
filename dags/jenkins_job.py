@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.models import Connection
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
-
+import jenkins
 
 default_args = {
     'owner': 'airflow',
@@ -18,7 +18,7 @@ dag = DAG(
 )
 
 def trigger_jenkins_job(**kwargs):
-    jenkins_conn = Connection.get_connection_from_secrets('jenkins_conn')
+    jenkins_conn = Connection.get_connection('jenkins_conn')  # Use get_connection instead
 
     server = jenkins.Jenkins(
         jenkins_conn.host,
@@ -38,3 +38,8 @@ trigger_jenkins_task = PythonOperator(
     provide_context=True,
     dag=dag,
 )
+
+# Set up task dependencies if needed
+# Example: trigger_jenkins_task >> other_task
+
+# It's not needed to call 'trigger_jenkins_task' separately at the end
