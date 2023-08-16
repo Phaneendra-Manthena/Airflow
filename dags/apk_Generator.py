@@ -2,7 +2,7 @@ from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.operators.python_operator import PythonOperator
 from parseYaml import *
-import wget
+
 
 default_args = {
     'owner': 'Airflow',
