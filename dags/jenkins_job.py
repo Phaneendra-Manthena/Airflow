@@ -25,4 +25,5 @@ trigger_jenkins_task = BashOperator(
     dag=dag,
 )
 
+
 trigger_jenkins_task
