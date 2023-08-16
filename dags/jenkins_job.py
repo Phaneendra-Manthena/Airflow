@@ -1,7 +1,8 @@
 from airflow import DAG
-from airflow.providers.jenkins.hooks.jenkins import JenkinsHook
+from airflow.hooks.base_hook import BaseHook
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
+import jenkins
 
 default_args = {
     'owner': 'airflow',
@@ -17,8 +18,13 @@ dag = DAG(
 )
 
 def trigger_jenkins_job(**kwargs):
-    jenkins_hook = JenkinsHook(jenkins_conn_id='jenkins_conn')
-    server = jenkins_hook.get_jenkins_server()
+    jenkins_conn = BaseHook.get_connection('jenkins_conn')
+
+    server = jenkins.Jenkins(
+        jenkins_conn.host,
+        username=jenkins_conn.login,
+        password=jenkins_conn.password
+    )
 
     # Replace 'gradle' with your actual Jenkins job name
     job_name = 'gradle'
