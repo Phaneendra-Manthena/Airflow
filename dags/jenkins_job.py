@@ -16,8 +16,7 @@ dag = DAG(
 )
 
 jenkins_command = (
-    'curl -I -X POST http://Phani:11bcabf573419a1b38f178b9de116c0f4d@34.16.152.234:8080/job/gradle/build '
-    '-H "Jenkins-Crumb:fa017a59c1c5b739c282fae1d5f674c587407a7fb471f98d73a6714de2ddce1d"'
+    'curl -I -X POST http://Phani:11bcabf573419a1b38f178b9de116c0f4d@34.125.61.238:8080/job/gradle/build -H "Jenkins-Crumb:338fbe4952e517ed1ad3ff4780c17db66231022bdcae929d7532d5e9b3a7a19e"'
 )
 
 trigger_jenkins_task = BashOperator(
