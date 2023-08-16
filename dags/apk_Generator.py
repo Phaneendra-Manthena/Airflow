@@ -1,8 +1,6 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
-from datetime import datetime
 
 default_args = {
     'owner': 'Airflow',
@@ -10,7 +8,11 @@ default_args = {
     'retries': 1,
     'retry_delay': timedelta(seconds=5)
 }
-def parseYaml()
+
+def parseYaml():
+    # Your logic for parsing YAML here
+    pass
+
 dag = DAG(
     'apk_Generator',
     schedule_interval=None,
