@@ -1,8 +1,6 @@
 from airflow import DAG
-from airflow.hooks.base_hook import BaseHook
-from airflow.operators.python_operator import PythonOperator
+from airflow.operators.bash_operator import BashOperator
 from datetime import datetime
-import jenkins
 
 default_args = {
     'owner': 'airflow',
@@ -17,29 +15,15 @@ dag = DAG(
     catchup=False,
 )
 
-def trigger_jenkins_job(**kwargs):
-    jenkins_conn = BaseHook.get_connection('jenkins_conn')
+jenkins_command = (
+    'curl -I -X POST http://Phani:11bcabf573419a1b38f178b9de116c0f4d@34.125.61.238:8080/job/gradle/build -H "Jenkins-Crumb:338fbe4952e517ed1ad3ff4780c17db66231022bdcae929d7532d5e9b3a7a19e"'
+)
 
-    server = jenkins.Jenkins(
-        jenkins_conn.host,
-        username=jenkins_conn.login,
-        password=jenkins_conn.password
-    )
-
-    # Replace 'gradle' with your actual Jenkins job name
-    job_name = 'gradle'
-
-    # Trigger the Jenkins job
-    server.build_job(job_name, parameters={'param1': 'value1', 'param2': 'value2'})
-
-trigger_jenkins_task = PythonOperator(
+trigger_jenkins_task = BashOperator(
     task_id='trigger_jenkins_task',
-    python_callable=trigger_jenkins_job,
-    provide_context=True,
+    bash_command=jenkins_command,
     dag=dag,
 )
 
-# Set up task dependencies if needed
-# Example: trigger_jenkins_task >> other_task
 
-# It's not needed to call 'trigger_jenkins_task' separately at the end
+trigger_jenkins_task
