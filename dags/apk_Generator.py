@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
+from functions.parsing_functions import parseYaml
 
 
 default_args = {
