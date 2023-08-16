@@ -25,5 +25,5 @@ trigger_jenkins_task = BashOperator(
     dag=dag,
 )
 
-
+# Corrected part: Establishing task dependencies
 trigger_jenkins_task
