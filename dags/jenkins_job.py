@@ -1,6 +1,8 @@
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
+from airflow.models import Connection
+from airflow.operators.python_operator import PythonOperator
 from datetime import datetime
+import jenkins
 
 default_args = {
     'owner': 'airflow',
@@ -15,15 +17,24 @@ dag = DAG(
     catchup=False,
 )
 
-jenkins_command = (
-    'curl -I -X POST http://Phani:11bcabf573419a1b38f178b9de116c0f4d@34.125.61.238:8080/job/gradle/build -H "Jenkins-Crumb:338fbe4952e517ed1ad3ff4780c17db66231022bdcae929d7532d5e9b3a7a19e"'
-)
+def trigger_jenkins_job(**kwargs):
+    jenkins_conn = Connection.get_connection_from_secrets('jenkins_conn')
 
-trigger_jenkins_task = BashOperator(
+    server = jenkins.Jenkins(
+        jenkins_conn.host,
+        username=jenkins_conn.login,
+        password=jenkins_conn.password
+    )
+
+    # Replace 'gradle' with your actual Jenkins job name
+    job_name = 'gradle'
+
+    # Trigger the Jenkins job
+    server.build_job(job_name, parameters={'param1': 'value1', 'param2': 'value2'})
+
+trigger_jenkins_task = PythonOperator(
     task_id='trigger_jenkins_task',
-    bash_command=jenkins_command,
+    python_callable=trigger_jenkins_job,
+    provide_context=True,
     dag=dag,
 )
-
-
-trigger_jenkins_task
