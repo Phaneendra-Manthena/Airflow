@@ -31,7 +31,7 @@ services:
       - AIRFLOW__SMTP__SMTP_MAIL_FROM=Airflow
     volumes:
       - ./dags:/usr/local/airflow/dags
-      - ./store_files:/usr/local/airflow/store_files_airflow/
+      - ./store_files:/usr/local/airflow/Airflow/
       - ./sql_files:/usr/local/airflow/sql_files
 
       # - ./plugins:/usr/local/airflow/plugins
